@@ -45,12 +45,9 @@ const App = () => {
 
     setContacts([...contacts, newContact]);
   };
-  const handlesFilter = (e) => setFilter(e.target.value);
-
-  // const handleFilter = (event) => setFilter(event.target.value);
-  // const handleFilter = (e) => {
-  //   setFilter(e.target.value);
-  // };
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
+  };
 
   const handleDelete = (id) => {
     const filteredContacts = contacts.filter((contact) => contact.id !== id);
@@ -63,7 +60,7 @@ const App = () => {
       <h1 className={s.title}>Phonebook</h1>
       <ContactForm onSubmit={handleAddContact} contacts={contacts} />
       <h2 className={s.title}>Contacts</h2>
-      <Filter value={filter} onChange={handlesFilter} />
+      <Filter value={filter} onChange={handleFilter} />
       <ContactList contacts={contacts} onDeleteContact={handleDelete} />
     </Container>
   );
