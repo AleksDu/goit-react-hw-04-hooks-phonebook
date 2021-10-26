@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Container from "./components/Container";
 import ContactForm from "./components/ContactForm";
 import Filter from "./components/Filter";
@@ -21,7 +21,6 @@ const App = () => {
     const currentContacts = JSON.parse(
       localStorage.getItem(localStorageContactsKey)
     );
-    // console.log(localStorageContactsKey);
 
     if (currentContacts) {
       setContacts(currentContacts);
@@ -45,8 +44,27 @@ const App = () => {
 
     setContacts([...contacts, newContact]);
   };
-  const handleFilter = (e) => {
-    setFilter(e.target.value);
+  //
+  // const handleFilter = (e) => {
+  //   console.log(e.target.value);
+
+  //   setFilter(e.target.value);
+  // };
+  // const filteredCont = useMemo(() => {
+  //   let normFilter = filter.toLowerCase();
+  //   return contacts.filter((contact) =>
+  //     contact.toLowerCase().includes(normFilter)
+  //   );
+  // }, [filter, contacts]);
+
+  const handleFilter = useCallback((e) => setFilter(e.target.value), []);
+
+  const handleFilters = () => {
+    if (contacts) {
+      return contacts.filter((contact) =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
   };
 
   const handleDelete = (id) => {
@@ -54,14 +72,14 @@ const App = () => {
 
     setContacts(filteredContacts);
   };
-
+  // console.log(filter);
   return (
     <Container>
       <h1 className={s.title}>Phonebook</h1>
       <ContactForm onSubmit={handleAddContact} contacts={contacts} />
       <h2 className={s.title}>Contacts</h2>
       <Filter value={filter} onChange={handleFilter} />
-      <ContactList contacts={contacts} onDeleteContact={handleDelete} />
+      <ContactList contacts={handleFilters()} onDeleteContact={handleDelete} />
     </Container>
   );
 };

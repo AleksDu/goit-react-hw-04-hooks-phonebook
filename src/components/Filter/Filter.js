@@ -8,7 +8,8 @@ const Filter = ({ value, onChange }) => {
       Find contacts by name
       <input
         type="text"
-        // name="filter"
+        id="filter"
+        name="filter"
         placeholder="Find?"
         className={s.input}
         value={value}
